@@ -1,37 +1,62 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
+import AlertMessage from '@/components/AlertMessage.vue'
+import '@/assets/styles/login.css'
 
 const auth = useAuthStore()
 const router = useRouter()
 
 const email = ref('')
 const password = ref('')
-const error = ref('')
 
 async function handleLogin() {
   try {
-    error.value = ''
     await auth.login(email.value, password.value)
     router.push('/')
-  } catch (err: any) {
-    error.value = 'Email ou senha inválidos'
+  } catch {
+    // erro já tratado na store
   }
 }
+
+watch(email, () => auth.error && (auth.error = null))
+watch(password, () => auth.error && (auth.error = null))
 </script>
 
 <template>
-  <div>
-    <h1>Login</h1>
+  <div class="login-container">
+    <form @submit.prevent="handleLogin" class="login-card">
+      <h1>Login</h1>
 
-    <input v-model="email" placeholder="Email" />
-    <input v-model="password" type="password" placeholder="Senha" />
+      <input
+        v-model="email"
+        type="email"
+        placeholder="Email"
+        required
+      />
 
-    <button @click="handleLogin" :disabled="auth.loading">
-      {{ auth.loading ? 'Entrando...' : 'Entrar' }}
-    </button>
+      <input
+        v-model="password"
+        type="password"
+        placeholder="Senha"
+        required
+      />
 
-    <p v-if="error">{{ error }}</p>
+      <button type="submit" :disabled="auth.loading">
+        {{ auth.loading ? 'Entrando...' : 'Entrar' }}
+      </button>
+
+      <p class="redirect">
+        Não tem conta?
+        <router-link to="/register">Criar conta</router-link>
+      </p>
+
+      <AlertMessage
+        v-if="auth.error"
+        type="error"
+        :message="auth.error"
+      />
+    </form>
   </div>
 </template>
