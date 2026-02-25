@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-interface Toast {
+export interface Toast {
     id: number
     message: string
     type: 'success' | 'error'
@@ -8,13 +8,12 @@ interface Toast {
 
 export const useToastStore = defineStore('toast', {
     state: () => ({
-        toasts: [] as Toast[]
+        toasts: [] as Toast[],
     }),
 
     actions: {
         show(message: string, type: 'success' | 'error' = 'success') {
             const id = Date.now()
-
             this.toasts.push({ id, message, type })
 
             setTimeout(() => {
@@ -22,8 +21,16 @@ export const useToastStore = defineStore('toast', {
             }, 3000)
         },
 
+        success(message: string) {
+            this.show(message, 'success')
+        },
+
+        error(message: string) {
+            this.show(message, 'error')
+        },
+
         remove(id: number) {
             this.toasts = this.toasts.filter(t => t.id !== id)
-        }
-    }
+        },
+    },
 })

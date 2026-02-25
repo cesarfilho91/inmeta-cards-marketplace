@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
+import { useToastStore } from '@/stores/toast.store'
+import { getFriendlyError } from '@/utils/errorMapper'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const toast = useToastStore()
 
 const name = ref('')
 const email = ref('')
@@ -16,7 +19,7 @@ const handleRegister = async () => {
   localError.value = null
 
   if (password.value !== confirmPassword.value) {
-    localError.value = 'As senhas não coincidem'
+    toast.error('As senhas não coincidem')
     return
   }
 
@@ -27,13 +30,10 @@ const handleRegister = async () => {
       password.value
     )
 
-    // depois podemos trocar por toast
-    alert('Cadastro realizado com sucesso!')
-
-    router.push('/')
+    toast.success('Conta criada com sucesso!')
+    router.push('/login')
   } catch {
-    localError.value =
-      authStore.error || 'Erro ao registrar'
+    toast.error(getFriendlyError(authStore.error))
   }
 }
 </script>
