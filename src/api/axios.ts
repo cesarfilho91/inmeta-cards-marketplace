@@ -6,11 +6,13 @@ export const api = axios.create({
     timeout: 15000
 })
 
-api.interceptors.request.use((config) => {
-    const auth = useAuthStore()
 
-    if (auth.token) {
-        config.headers.Authorization = `Bearer ${auth.token}`
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token')
+
+    if (token) {
+        config.headers = config.headers || {}
+        config.headers.Authorization = `Bearer ${token}`
     }
 
     return config
@@ -21,8 +23,12 @@ api.interceptors.response.use(
     (error) => {
         if (error.response?.status === 401) {
             const auth = useAuthStore()
+
             auth.logout()
-            window.location.href = '/login'
+
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login'
+            }
         }
 
         return Promise.reject(error)
