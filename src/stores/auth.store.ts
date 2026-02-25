@@ -1,17 +1,13 @@
 import { defineStore } from 'pinia'
 import { AuthService } from '@/services/auth.service'
-
-interface User {
-    id: string
-    name: string
-    email: string
-}
+import type { User } from '@/types/user.types'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: null as User | null,
+        user: JSON.parse(localStorage.getItem('user') || 'null') as User | null,
         token: localStorage.getItem('token') || null,
-        loading: false
+        loading: false,
+        error: null as string | null
     }),
 
     getters: {
@@ -20,9 +16,10 @@ export const useAuthStore = defineStore('auth', {
 
     actions: {
         async login(email: string, password: string) {
-            try {
-                this.loading = true
+            this.loading = true
+            this.error = null
 
+            try {
                 const { token, user } = await AuthService.login({ email, password })
 
                 this.token = token
@@ -30,6 +27,37 @@ export const useAuthStore = defineStore('auth', {
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('user', JSON.stringify(user))
+            } catch (err: any) {
+                this.error =
+                    err.response?.data?.message ||
+                    'Erro ao realizar login'
+                throw err
+            } finally {
+                this.loading = false
+            }
+        },
+
+        async register(name: string, email: string, password: string) {
+            this.loading = true
+            this.error = null
+
+            try {
+                const { token, user } = await AuthService.register({
+                    name,
+                    email,
+                    password
+                })
+
+                this.token = token
+                this.user = user
+
+                localStorage.setItem('token', token)
+                localStorage.setItem('user', JSON.stringify(user))
+            } catch (err: any) {
+                this.error =
+                    err.response?.data?.message ||
+                    'Erro ao registrar usuário'
+                throw err
             } finally {
                 this.loading = false
             }
@@ -38,7 +66,6 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.user = null
             this.token = null
-
             localStorage.removeItem('token')
             localStorage.removeItem('user')
         },
@@ -46,8 +73,12 @@ export const useAuthStore = defineStore('auth', {
         async fetchUser() {
             if (!this.token) return
 
-            const user = await AuthService.me()
-            this.user = user
+            try {
+                const user = await AuthService.me()
+                this.user = user
+            } catch {
+                this.logout()
+            }
         }
     }
 })
