@@ -4,8 +4,9 @@ import { useAuthStore } from '@/stores/auth.store'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import HomeView from '@/views/HomeView.vue'
+import AppLayout from '@/layouts/AppLayout.vue'
 
-export const router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -18,27 +19,28 @@ export const router = createRouter({
         },
         {
             path: '/',
-            component: HomeView,
-            meta: { requiresAuth: true }
+            component: AppLayout,
+            meta: { requiresAuth: true },
+            children: [
+                {
+                    path: '',
+                    component: HomeView
+                }
+            ]
         }
     ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
     const auth = useAuthStore()
 
     if (to.meta.requiresAuth && !auth.isAuthenticated) {
-        next('/login')
+        return '/login'
     }
 
-    else if (
-        (to.path === '/login' || to.path === '/register') &&
-        auth.isAuthenticated
-    ) {
-        next('/')
-    }
-
-    else {
-        next()
+    if ((to.path === '/login' || to.path === '/register') && auth.isAuthenticated) {
+        return '/'
     }
 })
+
+export default router
