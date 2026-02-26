@@ -11,11 +11,13 @@ const router = createRouter({
     routes: [
         {
             path: '/login',
-            component: LoginView
+            component: LoginView,
+            meta: { guestOnly: true }
         },
         {
             path: '/register',
-            component: RegisterView
+            component: RegisterView,
+            meta: { guestOnly: true }
         },
         {
             path: '/',
@@ -24,6 +26,7 @@ const router = createRouter({
             children: [
                 {
                     path: '',
+                    name: 'home',
                     component: HomeView
                 }
             ]
@@ -34,11 +37,14 @@ const router = createRouter({
 router.beforeEach((to) => {
     const auth = useAuthStore()
 
-    if (to.meta.requiresAuth && !auth.isAuthenticated) {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+    const guestOnly = to.matched.some(record => record.meta.guestOnly)
+
+    if (requiresAuth && !auth.isAuthenticated) {
         return '/login'
     }
 
-    if ((to.path === '/login' || to.path === '/register') && auth.isAuthenticated) {
+    if (guestOnly && auth.isAuthenticated) {
         return '/'
     }
 })
