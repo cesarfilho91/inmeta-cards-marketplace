@@ -41,6 +41,7 @@ const handleRegister = async () => {
 <template>
   <div class="auth-container">
     <div class="auth-card">
+      <img src="@/assets/images/logo.png" class="auth-logo" />
       <h2>Criar Conta</h2>
 
       <form @submit.prevent="handleRegister">

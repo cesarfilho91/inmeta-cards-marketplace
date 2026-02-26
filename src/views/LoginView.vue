@@ -30,6 +30,7 @@ async function handleLogin() {
 <template>
   <div class="login-container">
     <form @submit.prevent="handleLogin" class="login-card">
+      <img src="@/assets/images/logo.png" class="auth-logo" />
       <h1>Login</h1>
 
       <input
