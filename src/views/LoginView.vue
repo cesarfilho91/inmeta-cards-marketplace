@@ -12,9 +12,33 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 
+const formError = ref('')
+
 const toast = useToastStore()
 
+function validateForm(): boolean {
+  formError.value = ''
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  if (!emailRegex.test(email.value)) {
+    formError.value = 'Digite um email válido'
+    return false
+  }
+
+  if (password.value.length < 6) {
+    formError.value = 'A senha deve ter no mínimo 6 caracteres'
+    return false
+  }
+
+  return true
+}
+
 async function handleLogin() {
+  if (auth.loading) return
+
+  if (!validateForm()) return
+
   try {
     await auth.login(email.value, password.value)
 
@@ -34,18 +58,22 @@ async function handleLogin() {
       <h1>Login</h1>
 
       <input
-        v-model="email"
+        v-model.trim="email"
         type="email"
         placeholder="Email"
         required
       />
 
       <input
-        v-model="password"
+        v-model.trim="password"
         type="password"
         placeholder="Senha"
         required
       />
+      
+      <p v-if="formError" class="form-error">
+        {{ formError }}
+      </p>
 
       <button type="submit" :disabled="auth.loading">
         {{ auth.loading ? 'Entrando...' : 'Entrar' }}
