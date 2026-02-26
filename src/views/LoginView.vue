@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 import { getFriendlyError } from '@/utils/errorMapper'
+import { useFormValidation } from '@/composables/useFormValidation'
 import '@/assets/styles/login.css'
 
 const auth = useAuthStore()
@@ -12,24 +13,20 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 
-const formError = ref('')
-
 const toast = useToastStore()
 
+const{
+  error: formError,
+  reset,
+  email: validateEmail,
+  minLength,
+} = useFormValidation()
+
 function validateForm(): boolean {
-  formError.value = ''
+  reset()
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-  if (!emailRegex.test(email.value)) {
-    formError.value = 'Digite um email válido'
-    return false
-  }
-
-  if (password.value.length < 6) {
-    formError.value = 'A senha deve ter no mínimo 6 caracteres'
-    return false
-  }
+  if (!validateEmail(email.value)) return false
+  if (!minLength(password.value, 6)) return false
 
   return true
 }

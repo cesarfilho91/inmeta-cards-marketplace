@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
 import { useToastStore } from '@/stores/toast.store'
 import { getFriendlyError } from '@/utils/errorMapper'
+import { useFormValidation } from '@/composables/useFormValidation'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -14,32 +15,23 @@ const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-const formError = ref('')
+
+const{
+  error: formError,
+  reset,
+  required,
+  email: validateEmail,
+  minLength,
+  match
+} = useFormValidation()
 
 function validateForm(): boolean {
-  formError.value = ''
+  reset()
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-  if (!name.value.trim()) {
-    formError.value = 'O nome é obrigatório'
-    return false
-  }
-
-  if (!emailRegex.test(email.value)) {
-    formError.value = 'Digite um email válido'
-    return false
-  }
-
-  if (password.value.length < 6) {
-    formError.value = 'A senha deve ter no mínimo 6 caracteres'
-    return false
-  }
-
-  if (password.value !== confirmPassword.value) {
-    formError.value = 'As senhas não coincidem'
-    return false
-  }
+  if (!required(name.value, 'O nome é obrigatório')) return false
+  if (!validateEmail(email.value)) return false
+  if (!minLength(password.value, 6)) return false
+  if (!match(password.value, confirmPassword.value, 'As senhas não coincidem')) return false
 
   return true
 }
