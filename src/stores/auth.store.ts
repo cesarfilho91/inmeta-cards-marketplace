@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { AuthService } from '@/services/auth.service'
 import type { User } from '@/types/user.types'
+import type { AuthResponse } from '@/types/auth.types'
 
 function getUserFromStorage(): User | null {
     try {
@@ -13,10 +14,10 @@ function getUserFromStorage(): User | null {
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: getUserFromStorage(),
-        token: localStorage.getItem('token'),
-        loading: false,
-        error: null as string | null
+        error: null as string | null,
+        loading: false as boolean,
+        token: localStorage.getItem('token') as string | null,
+        user: getUserFromStorage() as User | null
     }),
 
     getters: {
@@ -24,29 +25,33 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        async login(email: string, password: string) {
+        async login(email: string, password: string): Promise<void> {
             this.loading = true
             this.error = null
 
             try {
-                const { token, user } = await AuthService.login({ email, password })
+                const { token, user }: AuthResponse = await AuthService.login({ email, password })
 
                 this.token = token
                 this.user = user
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('user', JSON.stringify(user))
-            } catch (err: any) {
+            } catch (err: unknown) {
+                const error = err as any
+
                 this.error =
-                    err.response?.data?.message ||
+                    error?.response?.data?.message ||
+                    error?.message ||
                     'Erro ao realizar login'
+
                 throw err
             } finally {
                 this.loading = false
             }
         },
 
-        async register(name: string, email: string, password: string) {
+        async register(name: string, email: string, password: string): Promise<void> {
             this.loading = true
             this.error = null
 
@@ -85,6 +90,7 @@ export const useAuthStore = defineStore('auth', {
             if (!this.token) return
 
             this.loading = true
+            this.error = null
 
             try {
                 const user = await AuthService.me()
