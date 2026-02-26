@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         error: null as string | null,
         loading: false as boolean,
+        initialized: false as boolean,
         token: localStorage.getItem('token') as string | null,
         user: getUserFromStorage() as User | null
     }),
@@ -87,7 +88,10 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async fetchUser() {
-            if (!this.token) return
+            if (!this.token) {
+                this.initialized = true
+                return
+            }
 
             this.loading = true
             this.error = null
@@ -95,10 +99,12 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const user = await AuthService.me()
                 this.user = user
+                localStorage.setItem('user', JSON.stringify(user))
             } catch {
                 this.logout()
             } finally {
                 this.loading = false
+                this.initialized = true
             }
         }
     }
