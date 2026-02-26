@@ -2,10 +2,19 @@ import { defineStore } from 'pinia'
 import { AuthService } from '@/services/auth.service'
 import type { User } from '@/types/user.types'
 
+function getUserFromStorage(): User | null {
+    try {
+        const user = localStorage.getItem('user')
+        return user ? JSON.parse(user) : null
+    } catch {
+        return null
+    }
+}
+
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: JSON.parse(localStorage.getItem('user') || 'null') as User | null,
-        token: localStorage.getItem('token') || null,
+        user: getUserFromStorage(),
+        token: localStorage.getItem('token'),
         loading: false,
         error: null as string | null
     }),
@@ -66,6 +75,8 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.user = null
             this.token = null
+            this.error = null
+
             localStorage.removeItem('token')
             localStorage.removeItem('user')
         },
@@ -73,11 +84,15 @@ export const useAuthStore = defineStore('auth', {
         async fetchUser() {
             if (!this.token) return
 
+            this.loading = true
+
             try {
                 const user = await AuthService.me()
                 this.user = user
             } catch {
                 this.logout()
+            } finally {
+                this.loading = false
             }
         }
     }
