@@ -13,20 +13,46 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
-const localError = ref<string | null>(null)
 
-const handleRegister = async () => {
-  localError.value = null
+const formError = ref('')
+
+function validateForm(): boolean {
+  formError.value = ''
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  if (!name.value.trim()) {
+    formError.value = 'O nome é obrigatório'
+    return false
+  }
+
+  if (!emailRegex.test(email.value)) {
+    formError.value = 'Digite um email válido'
+    return false
+  }
+
+  if (password.value.length < 6) {
+    formError.value = 'A senha deve ter no mínimo 6 caracteres'
+    return false
+  }
 
   if (password.value !== confirmPassword.value) {
-    toast.error('As senhas não coincidem')
-    return
+    formError.value = 'As senhas não coincidem'
+    return false
   }
+
+  return true
+}
+
+const handleRegister = async () => {
+  if (authStore.loading) return
+
+  if (!validateForm()) return
 
   try {
     await authStore.register(
-      name.value,
-      email.value,
+      name.value.trim(),
+      email.value.trim(),
       password.value
     )
 
@@ -36,6 +62,7 @@ const handleRegister = async () => {
     toast.error(getFriendlyError(authStore.error))
   }
 }
+
 </script>
 
 <template>
@@ -46,32 +73,36 @@ const handleRegister = async () => {
 
       <form @submit.prevent="handleRegister">
         <input
-          v-model="name"
+          v-model.trim="name"
           type="text"
           placeholder="Nome"
           required
         />
 
         <input
-          v-model="email"
+          v-model.trim="email"
           type="email"
           placeholder="Email"
           required
         />
 
         <input
-          v-model="password"
+          v-model.trim="password"
           type="password"
           placeholder="Senha"
           required
         />
 
         <input
-          v-model="confirmPassword"
+          v-model.trim="confirmPassword"
           type="password"
           placeholder="Confirmar Senha"
           required
         />
+
+      <p v-if="formError" class="form-error">
+        {{ formError }}
+      </p>
 
         <button
           type="submit"
@@ -80,10 +111,6 @@ const handleRegister = async () => {
           {{ authStore.loading ? 'Cadastrando...' : 'Cadastrar' }}
         </button>
       </form>
-
-      <p v-if="localError" class="error">
-        ❌ {{ localError }}
-      </p>
 
       <p class="redirect">
         Já tem conta?
