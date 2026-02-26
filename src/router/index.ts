@@ -34,18 +34,22 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
     const auth = useAuthStore()
+
+    if (!auth.initialized) {
+        await auth.fetchUser()
+    }
 
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
     const guestOnly = to.matched.some(record => record.meta.guestOnly)
 
     if (requiresAuth && !auth.isAuthenticated) {
-        return '/login'
+        return { path: '/login' }
     }
 
     if (guestOnly && auth.isAuthenticated) {
-        return '/'
+        return { path: '/' }
     }
 })
 
