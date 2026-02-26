@@ -19,6 +19,7 @@
 
 .login-card h1 {
     text-align: center;
+    margin-block-start: 0;
 }
 
 .login-card input {
