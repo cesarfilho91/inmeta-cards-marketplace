@@ -1,33 +1,368 @@
-.navbar {
-    height: calc(100vh - 60px);
-    background: #111827;
-    color: white;
+.content {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    background-color: #f9fafb;
+}
+
+.navbar-logo {
+    width: 28px;
+}
+
+.home-container {
+    padding: 2rem;
+    min-height: calc(100vh - 125px);
+    background: linear-gradient(135deg,
+            #f4f6f9 0%,
+            #eef2ff 100%);
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* USER BLOCK */
+
+.user-wrapper {
+    position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
-}
-
-.logo {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.navbar button {
-    background: #ef4444;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: white;
+    gap: 12px;
     cursor: pointer;
 }
 
-.navbar button:hover {
-    opacity: 0.9;
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* DROPDOWN */
+
+.dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem;
+    min-width: 120px;
+    animation: fadeIn 0.15s ease-in-out;
+}
+
+.dropdown button {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.dropdown button:hover {
+    background-color: #f3f4f6;
+}
+
+/* animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* LAYOUT BASE */
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 240px;
+    background: #111827;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.sidebar-logo img {
+    width: 100px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #d1d5db;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: #1f2937;
+    color: white;
+}
+
+.nav-item.router-link-active {
+    background-color: #2563eb;
+    color: white;
+}
+
+/* MAIN AREA */
+
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* NAVBAR */
+
+.navbar {
+    height: 60px;
+    background: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* CONTENT */
+
+.content {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* MENU BUTTON */
+
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    position: relative;
+}
+
+.menu-btn span,
+.menu-btn span::before,
+.menu-btn span::after {
+    position: absolute;
+    content: '';
+    height: 2px;
+    width: 100%;
+    background: #111827;
+    transition: all 0.3s ease;
+    text-align: initial;
+    left: 0;
+}
+
+.menu-btn span {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu-btn span::before {
+    top: -8px;
+}
+
+.menu-btn span::after {
+    top: 8px;
+}
+
+/* Quando aberto vira X */
+
+.menu-btn span.open {
+    background: transparent;
+}
+
+.menu-btn span.open::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.menu-btn span.open::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: fixed;
+        left: -240px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .navbar {
+        justify-content: space-between;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .content {
+        padding: 1.5rem;
+    }
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 900;
+}
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: fixed;
+        left: -240px;
+        top: 0;
+        height: 100vh;
+        z-index: 1100;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        animation: fadeOverlay 0.2s ease;
+    }
+
+    @keyframes fadeOverlay {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+
+    }
+
+}
+
+/* ROUTE ANIMATION */
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.25s ease;
+}
+
+.fade-slide-enter-from {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+/* DARK MODE */
+
+.dark body {
+    background-color: #0f172a;
+}
+
+.dark .content {
+    background-color: #0f172a;
+}
+
+.dark .navbar {
+    background-color: #111827;
+    color: #f3f4f6;
+}
+
+.dark .sidebar {
+    background-color: #0f172a;
+}
+
+.dark .stat-card,
+.dark .dropdown {
+    background-color: #1f2937;
+    color: #f3f4f6;
+}
+
+.dark .user-name {
+    color: #f3f4f6;
 }
