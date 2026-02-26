@@ -1,33 +1,55 @@
 import { ref } from 'vue'
 
 export function useFormValidation() {
-    const error = ref('')
+    const error = ref<string | null>(null)
 
-    function validateEmail(email: string): boolean {
+    function reset() {
+        error.value = null
+    }
+
+    function required(value: string, message: string): boolean {
+        if (!value.trim()) {
+            error.value = message
+            return false
+        }
+        return true
+    }
+
+    function email(value: string): boolean {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!regex.test(email)) {
+
+        if (!regex.test(value)) {
             error.value = 'Digite um email válido'
             return false
         }
+
         return true
     }
 
-    function validatePassword(password: string): boolean {
-        if (password.length < 6) {
-            error.value = 'A senha deve ter no mínimo 6 caracteres'
+    function minLength(value: string, length: number): boolean {
+        if (value.length < length) {
+            error.value = `Deve ter no mínimo ${length} caracteres`
             return false
         }
+
         return true
     }
 
-    function resetError() {
-        error.value = ''
+    function match(value: string, compare: string, message: string): boolean {
+        if (value !== compare) {
+            error.value = message
+            return false
+        }
+
+        return true
     }
 
     return {
         error,
-        validateEmail,
-        validatePassword,
-        resetError
+        reset,
+        required,
+        email,
+        minLength,
+        match
     }
 }
