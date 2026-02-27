@@ -1,5 +1,5 @@
 import axios, { type AxiosError } from 'axios'
-import { useAuthStore } from '@/stores/auth.store'
+import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useToastStore } from '@/stores/toast.store'
 import { getFriendlyError } from '@/utils/errorMapper'
 import router from '@/router'

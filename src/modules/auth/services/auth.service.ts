@@ -3,7 +3,7 @@ import type {
     LoginPayload,
     RegisterPayload,
     AuthResponse
-} from '@/types/auth.types'
+} from '@/modules/auth/types'
 
 import type { User } from '@/types/user.types'
 

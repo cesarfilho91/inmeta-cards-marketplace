@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { AuthService } from '@/services/auth.service'
+import { AuthService } from '@/modules/auth/services/auth.service'
 import type { User } from '@/types/user.types'
-import type { AuthResponse } from '@/types/auth.types'
+import type { AuthResponse } from '@/modules/auth/types'
 
 function getUserFromStorage(): User | null {
     try {
