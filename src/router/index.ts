@@ -3,12 +3,17 @@ import { useAuthStore } from '@/modules/auth/store/auth.store'
 
 import LoginView from '@/modules/auth/views/LoginView.vue'
 import RegisterView from '@/modules/auth/views/RegisterView.vue'
-import HomeView from '@/views/HomeView.vue'
 import AppLayout from '@/layouts/AppLayout.vue'
+import MarketplaceView from '@/modules/marketplace/views/MarketplaceView.vue'
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        {
+            path: '/',
+            name: 'marketplace',
+            component: MarketplaceView
+        },
         {
             path: '/login',
             component: LoginView,
@@ -20,14 +25,14 @@ const router = createRouter({
             meta: { guestOnly: true }
         },
         {
-            path: '/',
+            path: '/app',
             component: AppLayout,
             meta: { requiresAuth: true },
             children: [
                 {
                     path: '',
-                    name: 'home',
-                    component: HomeView
+                    name: 'dashboard',
+                    component: () => import('@/views/HomeView.vue')
                 }
             ]
         }
@@ -37,20 +42,18 @@ const router = createRouter({
 router.beforeEach(async (to) => {
     const auth = useAuthStore()
 
-    if (!auth.initialized) {
-        await auth.fetchUser()
-    }
-
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-    const guestOnly = to.matched.some(record => record.meta.guestOnly)
+    const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
+    const guestOnly = to.matched.some(r => r.meta.guestOnly)
 
     if (requiresAuth && !auth.isAuthenticated) {
-        return { path: '/login' }
+        return '/login'
     }
 
     if (guestOnly && auth.isAuthenticated) {
-        return { path: '/' }
+        return '/app'
     }
+
+    return true
 })
 
 export default router
