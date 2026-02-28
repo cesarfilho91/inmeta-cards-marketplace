@@ -1,7 +1,7 @@
 import { api } from '@/api/axios'
 
 export const TradeService = {
-    async create(cards: { cardId: string; type: string }[]) {
+    async create(cards: { cardId: string; type: 'OFFERING' | 'RECEIVING' }[]) {
         const response = await api.post('/trades', { cards })
         return response.data
     },
@@ -10,6 +10,11 @@ export const TradeService = {
         const response = await api.get('/trades', {
             params: { page, rpp }
         })
+        return response.data
+    },
+
+    async getMyCards() {
+        const response = await api.get('/me/cards')
         return response.data
     },
 
