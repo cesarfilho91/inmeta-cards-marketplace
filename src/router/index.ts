@@ -32,7 +32,7 @@ const router = createRouter({
                 {
                     path: '',
                     name: 'dashboard',
-                    component: () => import('@/views/HomeView.vue')
+                    component: () => import('@/modules/marketplace/views/HomeView.vue')
                 },
                 {
                     path: 'create-trade',

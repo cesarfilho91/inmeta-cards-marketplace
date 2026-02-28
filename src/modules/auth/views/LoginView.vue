@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
-import { getFriendlyError } from '@/utils/errorMapper'
-import { useFormValidation } from '@/composables/useFormValidation'
+import { getFriendlyError } from '@/shared/utils/errorMapper'
+import { useFormValidation } from '@/shared/composables/useFormValidation'
 import '@/assets/styles/login.css'
 
 const auth = useAuthStore()
@@ -15,7 +15,7 @@ const password = ref('')
 
 const toast = useToastStore()
 
-const{
+const {
   error: formError,
   reset,
   email: validateEmail,
@@ -54,20 +54,10 @@ async function handleLogin() {
       <img src="@/assets/images/logo.png" class="auth-logo" />
       <h1>Login</h1>
 
-      <input
-        v-model.trim="email"
-        type="email"
-        placeholder="Email"
-        required
-      />
+      <input v-model.trim="email" type="email" placeholder="Email" required />
 
-      <input
-        v-model.trim="password"
-        type="password"
-        placeholder="Senha"
-        required
-      />
-      
+      <input v-model.trim="password" type="password" placeholder="Senha" required />
+
       <p v-if="formError" class="form-error">
         {{ formError }}
       </p>
@@ -81,7 +71,7 @@ async function handleLogin() {
         <router-link to="/register">Criar conta</router-link>
       </p>
 
-      
+
     </form>
   </div>
 </template>

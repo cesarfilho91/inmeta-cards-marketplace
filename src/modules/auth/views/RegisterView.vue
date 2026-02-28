@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useToastStore } from '@/stores/toast.store'
-import { getFriendlyError } from '@/utils/errorMapper'
-import { useFormValidation } from '@/composables/useFormValidation'
+import { getFriendlyError } from '@/shared/utils/errorMapper'
+import { useFormValidation } from '@/shared/composables/useFormValidation'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -16,7 +16,7 @@ const password = ref('')
 const confirmPassword = ref('')
 
 
-const{
+const {
   error: formError,
   reset,
   required,
@@ -64,42 +64,19 @@ const handleRegister = async () => {
       <h2>Criar Conta</h2>
 
       <form @submit.prevent="handleRegister">
-        <input
-          v-model.trim="name"
-          type="text"
-          placeholder="Nome"
-          required
-        />
+        <input v-model.trim="name" type="text" placeholder="Nome" required />
 
-        <input
-          v-model.trim="email"
-          type="email"
-          placeholder="Email"
-          required
-        />
+        <input v-model.trim="email" type="email" placeholder="Email" required />
 
-        <input
-          v-model.trim="password"
-          type="password"
-          placeholder="Senha"
-          required
-        />
+        <input v-model.trim="password" type="password" placeholder="Senha" required />
 
-        <input
-          v-model.trim="confirmPassword"
-          type="password"
-          placeholder="Confirmar Senha"
-          required
-        />
+        <input v-model.trim="confirmPassword" type="password" placeholder="Confirmar Senha" required />
 
-      <p v-if="formError" class="form-error">
-        {{ formError }}
-      </p>
+        <p v-if="formError" class="form-error">
+          {{ formError }}
+        </p>
 
-        <button
-          type="submit"
-          :disabled="authStore.loading"
-        >
+        <button type="submit" :disabled="authStore.loading">
           {{ authStore.loading ? 'Cadastrando...' : 'Cadastrar' }}
         </button>
       </form>

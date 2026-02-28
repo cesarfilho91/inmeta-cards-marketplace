@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTradesStore } from '../stores/trades.store'
+import { useTradesStore } from '../store/trades.store'
 import type { TradeCardPayload } from '../types'
 
 const tradesStore = useTradesStore()

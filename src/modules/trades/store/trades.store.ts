@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { TradeService } from '@/services/trade.service'
+import { TradeService } from '@/modules/trades/services/trade.service'
 import type { TradeCardPayload } from '../types'
 
 interface TradeState {
