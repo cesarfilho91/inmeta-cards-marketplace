@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed,onMounted,onBeforeUnmount } from 'vue'
+import '@/assets/styles/dashboard.css'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
 
@@ -27,27 +28,29 @@ function applyTheme() {
 
 onMounted(() => {
   applyTheme()
+  document.addEventListener('click', handleClickOutside)
+  window.addEventListener('resize', handleResize)
 })
 
-function handleResize(){
+function handleResize() {
   isMobile.value = window.innerWidth <= 768
-  if(!isMobile.value) {
+  if (!isMobile.value) {
     sidebarOpen.value = false
   }
 }
 
-function closeSidebar(){
+function closeSidebar() {
   sidebarOpen.value = false
 }
 
 function handleLogout() {
   dropdownOpen.value = false
   auth.logout()
-  router.replace('/login')
+  router.replace('/')
 }
 
 const userInitial = computed(() => {
-  if(!auth.user?.name) return '?'
+  if (!auth.user?.name) return '?'
   return auth.user.name.charAt(0).toUpperCase()
 })
 
@@ -60,22 +63,11 @@ function handleClickOutside(event: MouseEvent) {
   }
 }
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
 onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
   document.removeEventListener('click', handleClickOutside)
 })
 
-
-onMounted(() => {
-  document.addEventListener('resize', handleResize)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('resize', handleResize)
-})
 </script>
 
 <template>
@@ -89,11 +81,11 @@ onBeforeUnmount(() => {
       </div>
 
       <nav class="sidebar-nav">
-        <router-link to="/" class="nav-item" @click="closeSidebar" >
+        <router-link to="/dashboard/marketplace" class="nav-item" @click="closeSidebar">
           Dashboard
         </router-link>
 
-        <router-link to="/cards" class="nav-item" @click="closeSidebar" >
+        <router-link to="/cards" class="nav-item" @click="closeSidebar">
           Cards
         </router-link>
       </nav>
@@ -108,16 +100,14 @@ onBeforeUnmount(() => {
       <header class="navbar">
 
         <button class="menu-btn" @click="sidebarOpen = !sidebarOpen">
-          <span :class="{open: sidebarOpen}"></span>
+          <span :class="{ open: sidebarOpen }"></span>
         </button>
 
         <button class="theme-toggle" @click="toggleTheme">
           {{ darkMode ? '☀️' : '🌙' }}
         </button>
 
-        <div class="user-wrapper"
-            ref="userMenuRef"
-            @click.stop="dropdownOpen = !dropdownOpen">
+        <div class="user-wrapper" ref="userMenuRef" @click.stop="dropdownOpen = !dropdownOpen">
 
           <div class="avatar">
             {{ userInitial }}
@@ -139,7 +129,7 @@ onBeforeUnmount(() => {
       </header>
 
       <!-- CONTENT -->
-      <main class="content">
+      <main class="content" id="dashboard-scroll-container">
         <transition name="fade-slide" mode="out-in">
           <router-view />
         </transition>

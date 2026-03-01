@@ -15,16 +15,35 @@ const handleLoadMore = async () => {
 const showScrollTop = ref(false)
 
 const handleScroll = () => {
-  showScrollTop.value = window.scrollY > 300
+  const dashboardContainer = document.getElementById('dashboard-scroll-container')
+
+  if (dashboardContainer) {
+    showScrollTop.value = dashboardContainer.scrollTop > 300
+  } else {
+    showScrollTop.value = window.scrollY > 300
+  }
 }
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  const dashboardContainer = document.getElementById('dashboard-scroll-container')
+
+  if (dashboardContainer) {
+    dashboardContainer.scrollTo({ top: 0, behavior: 'smooth' })
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 onMounted(() => {
   marketplace.fetchTrades()
-  window.addEventListener('scroll', handleScroll)
+
+  const dashboardContainer = document.getElementById('dashboard-scroll-container')
+
+  if (dashboardContainer) {
+    dashboardContainer.addEventListener('scroll', handleScroll)
+  } else {
+    window.addEventListener('scroll', handleScroll)
+  }
 })
 
 onUnmounted(() => {
