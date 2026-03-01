@@ -60,3 +60,40 @@
     transform: translateY(-3px);
     background: rgba(0, 0, 0, 0.7);
 }
+
+.scroll-fade-enter-active,
+.scroll-fade-leave-active {
+    transition: all 0.25s ease;
+}
+
+.scroll-fade-enter-from,
+.scroll-fade-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.scroll-fade-enter-to,
+.scroll-fade-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px);
+}
