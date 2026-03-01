@@ -3,6 +3,7 @@ import '@/assets/styles/dashboard.css'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
+import { LayoutDashboard, CreditCard, LayoutDashboardIcon, LucideLayoutDashboard, CreditCardIcon } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -82,11 +83,13 @@ onBeforeUnmount(() => {
 
       <nav class="sidebar-nav">
         <router-link to="/dashboard/marketplace" class="nav-item" @click="closeSidebar">
-          Dashboard
+          <LayoutDashboard class="icon" />
+          <span>Dashboard</span>
         </router-link>
 
         <router-link to="/cards" class="nav-item" @click="closeSidebar">
-          Cards
+          <CreditCard class="icon" />
+          <span>Cards</span>
         </router-link>
       </nav>
     </aside>
