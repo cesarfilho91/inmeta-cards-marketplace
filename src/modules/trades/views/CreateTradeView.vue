@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTradesStore } from '../store/trades.store'
 import type { TradeCardPayload } from '../types'
+import '@/assets/styles/trades.css'
 
 const tradesStore = useTradesStore()
 const router = useRouter()
@@ -75,51 +76,3 @@ async function submitTrade() {
         </div>
     </div>
 </template>
-
-<style scoped>
-.create-trade {
-    padding: 2rem;
-}
-
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.card-item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-}
-
-.card-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.selectors {
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-button {
-    padding: 0.75rem 1.5rem;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-</style>
