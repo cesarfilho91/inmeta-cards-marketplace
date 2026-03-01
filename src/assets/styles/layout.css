@@ -330,39 +330,49 @@
     transform: translateY(-8px);
 }
 
-.theme-toggle {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-right: 1rem;
+/* DARK MODE SIDEBAR */
+
+.dark .sidebar {
+    background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
 }
 
-/* DARK MODE */
-
-.dark body {
-    background-color: #0f172a;
+.dark .nav-item {
+    color: #94a3b8;
 }
 
-.dark .content {
-    background-color: #0f172a;
+.dark .nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .router-link-active {
+    background: rgba(59, 130, 246, 0.25);
+    color: #ffffff;
 }
 
 .dark .navbar {
-    background-color: #111827;
-    color: #f3f4f6;
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+    box-shadow: none;
 }
 
-.dark .sidebar {
-    background-color: #0f172a;
-}
-
-.dark .stat-card,
-.dark .dropdown {
-    background-color: #1f2937;
-    color: #f3f4f6;
+.dark .content {
+    background: #0f172a;
+    color: #e5e7eb;
 }
 
 .dark .user-name {
-    color: #f3f4f6;
+    color: #e5e7eb;
+}
+
+.theme-toggle {
+    margin-right: 1rem;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: rotate(15deg);
 }
