@@ -8,14 +8,15 @@
 
 .sidebar {
     width: 240px;
-    background: #0f172a;
+    background: linear-gradient(180deg, #0f172a 0%, #111827 100%) !important;
     color: white;
     padding: 1.5rem 1rem;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
-    transition: transform 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25) !important;
+
 }
 
 .sidebar-nav {
@@ -35,6 +36,7 @@
 
 .nav-item:hover {
     background: rgba(255, 255, 255, 0.08);
+    transform: translateX(3px);
 }
 
 .router-link-active {
@@ -97,4 +99,18 @@
     .navbar {
         left: 0;
     }
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-logo img {
+    width: 32px;
+    height: 32px;
 }
