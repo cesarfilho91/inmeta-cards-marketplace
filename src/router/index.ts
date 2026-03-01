@@ -1,61 +1,80 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 
+import PublicLayout from '@/layouts/PublicLayout.vue'
+import DashboardLayout from '@/layouts/AppLayout.vue'
+
+import MarketplaceView from '@/modules/marketplace/views/MarketplaceView.vue'
 import LoginView from '@/modules/auth/views/LoginView.vue'
 import RegisterView from '@/modules/auth/views/RegisterView.vue'
-import AppLayout from '@/layouts/AppLayout.vue'
-import MarketplaceView from '@/modules/marketplace/views/MarketplaceView.vue'
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
-            name: 'marketplace',
-            component: MarketplaceView
+            component: PublicLayout,
+            children: [
+                {
+                    path: '',
+                    name: 'marketplace-public',
+                    component: MarketplaceView
+                }
+            ]
         },
         {
             path: '/login',
+            name: 'login',
             component: LoginView,
             meta: { guestOnly: true }
         },
         {
             path: '/register',
+            name: 'register',
             component: RegisterView,
             meta: { guestOnly: true }
         },
+
         {
-            path: '/app',
-            component: AppLayout,
+            path: '/dashboard',
+            component: DashboardLayout,
             meta: { requiresAuth: true },
             children: [
                 {
                     path: '',
-                    name: 'dashboard',
-                    component: () => import('@/modules/marketplace/views/HomeView.vue')
+                    redirect: '/dashboard/marketplace'
+                },
+                {
+                    path: 'marketplace',
+                    name: 'marketplace',
+                    component: MarketplaceView
                 },
                 {
                     path: 'create-trade',
                     name: 'create-trade',
-                    component: () => import('@/modules/trades/views/CreateTradeView.vue')
+                    component: () =>
+                        import('@/modules/trades/views/CreateTradeView.vue')
                 }
             ]
         }
     ]
 })
 
-router.beforeEach(async (to) => {
+router.beforeEach((to) => {
     const auth = useAuthStore()
 
     const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
     const guestOnly = to.matched.some(r => r.meta.guestOnly)
 
     if (requiresAuth && !auth.isAuthenticated) {
-        return '/login'
+        return {
+            path: '/login',
+            query: { redirect: to.fullPath }
+        }
     }
 
     if (guestOnly && auth.isAuthenticated) {
-        return '/app'
+        return '/dashboard'
     }
 
     return true
