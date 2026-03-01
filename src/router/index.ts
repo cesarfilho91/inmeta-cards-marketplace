@@ -14,6 +14,7 @@ const router = createRouter({
         {
             path: '/',
             component: PublicLayout,
+            meta: { guestOnly: true },
             children: [
                 {
                     path: '',

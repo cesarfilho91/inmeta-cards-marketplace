@@ -40,7 +40,7 @@ async function handleLogin() {
     await auth.login(email.value, password.value)
 
     toast.success('Login realizado com sucesso!')
-    router.push('/')
+    router.push('/dashboard')
   } catch {
     toast.error(getFriendlyError(auth.error))
   }
