@@ -9,6 +9,7 @@ export const useMarketplaceStore = defineStore('marketplace', {
         rpp: 10,
         more: false,
         loading: false,
+        loadingMore: false,
         error: null as string | null
     }),
 
@@ -40,8 +41,14 @@ export const useMarketplaceStore = defineStore('marketplace', {
         async loadNextPage() {
             if (!this.more || this.loading) return
 
+            this.loadingMore = true
             this.page++
-            await this.fetchTrades(true)
+
+            try {
+                await this.fetchTrades(true)
+            } finally {
+                this.loadingMore = false
+            }
         }
     }
 })

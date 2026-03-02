@@ -3,25 +3,16 @@
     letter-spacing: 0.5px;
 }
 
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+.page-container {
+    background: var(--bg-navbar);
+    border: 1px solid rgba(0, 0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: rgba(0, 0, 0, 0, 0.04);
 }
 
-.nav-item .icon {
-    width: 18px;
-    height: 18px;
-}
-
-.nav-item.router-link-active::before {
-    content: "";
-    position: absolute;
-    left: -1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 60%;
-    background: #3b82f6;
-    border-radius: 4px;
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
 }
