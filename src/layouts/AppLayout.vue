@@ -3,7 +3,7 @@ import '@/assets/styles/dashboard.css'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
-import { LayoutDashboard, CreditCard, LayoutDashboardIcon, LucideLayoutDashboard, CreditCardIcon } from 'lucide-vue-next'
+import { LayoutDashboard, CreditCard, Moon, Sun } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -107,7 +107,8 @@ onBeforeUnmount(() => {
         </button>
 
         <button class="theme-toggle" @click="toggleTheme">
-          {{ darkMode ? '☀️' : '🌙' }}
+          <Sun v-if="darkMode" :size="20" />
+          <Moon v-else :size="20" />
         </button>
 
         <div class="user-wrapper" ref="userMenuRef" @click.stop="dropdownOpen = !dropdownOpen">
