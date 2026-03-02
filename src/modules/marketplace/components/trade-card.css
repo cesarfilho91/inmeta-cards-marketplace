@@ -107,6 +107,7 @@
     align-items: center;
     z-index: 1000;
     cursor: pointer;
+    backdrop-filter: blur(8px);
 }
 
 .modal-image {

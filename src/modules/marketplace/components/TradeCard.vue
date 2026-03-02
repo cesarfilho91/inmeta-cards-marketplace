@@ -95,11 +95,13 @@ const formattedDate = computed(() =>
         </div>
     </div>
 
-    <Transition name="modal">
-        <div v-if="selectedImage" class="image-modal" @click="closeImage">
-            <img :src="selectedImage" class="modal-image" @click.stop />
-        </div>
-    </Transition>
+    <Teleport to="body">
+        <Transition name="modal">
+            <div v-if="selectedImage" class="image-modal" @click="closeImage">
+                <img :src="selectedImage" class="modal-image" @click.stop />
+            </div>
+        </Transition>
+    </Teleport>
 </template>
 
 <style scoped src="./trade-card.css"></style>

@@ -3,7 +3,7 @@ import '@/assets/styles/dashboard.css'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
-import { LayoutDashboard, CreditCard, Moon, Sun } from 'lucide-vue-next'
+import { LayoutDashboard, CreditCard, Moon, Sun, RefreshCcw } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -69,12 +69,14 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
+function refreshPage() {
+  window.location.reload()
+}
 </script>
 
 <template>
   <div class="app-layout">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar" :class="{ open: sidebarOpen }">
       <div class="sidebar-logo">
         <img src="@/assets/images/logo.png" />
@@ -82,34 +84,42 @@ onBeforeUnmount(() => {
       </div>
 
       <nav class="sidebar-nav">
-        <router-link to="/dashboard/marketplace" class="nav-item" @click="closeSidebar">
+        <RouterLink to="/dashboard/marketplace" class="nav-item" @click="closeSidebar">
           <LayoutDashboard class="icon" />
           <span>Dashboard</span>
-        </router-link>
+        </RouterLink>
 
-        <router-link to="/cards" class="nav-item" @click="closeSidebar">
+        <RouterLink to="/dashboard/cards" class="nav-item" @click="closeSidebar">
           <CreditCard class="icon" />
-          <span>Cards</span>
-        </router-link>
+          <span>Minhas Cartas</span>
+        </RouterLink>
+
+        <RouterLink to="/dashboard/create-trade" class="nav-item" @click="closeSidebar">
+          <span>Criar Troca</span>
+        </RouterLink>
       </nav>
     </aside>
 
     <div v-if="sidebarOpen" class="sidebar-overlay" @click="closeSidebar"></div>
 
-    <!-- MAIN AREA -->
     <div class="main-area">
 
-      <!-- NAVBAR -->
       <header class="navbar">
 
         <button class="menu-btn" @click="sidebarOpen = !sidebarOpen">
           <span :class="{ open: sidebarOpen }"></span>
         </button>
 
-        <button class="theme-toggle" @click="toggleTheme">
-          <Sun v-if="darkMode" :size="20" />
-          <Moon v-else :size="20" />
-        </button>
+        <div class="header-actions">
+          <button class="theme-toggle" @click="toggleTheme">
+            <Sun v-if="darkMode" :size="20" />
+            <Moon v-else :size="20" />
+          </button>
+
+          <button class="icon-btn" @click="refreshPage">
+            <refresh-ccw :size="20" />
+          </button>
+        </div>
 
         <div class="user-wrapper" ref="userMenuRef" @click.stop="dropdownOpen = !dropdownOpen">
 
@@ -132,7 +142,6 @@ onBeforeUnmount(() => {
 
       </header>
 
-      <!-- CONTENT -->
       <main class="content" id="dashboard-scroll-container">
         <transition name="fade-slide" mode="out-in">
           <router-view />

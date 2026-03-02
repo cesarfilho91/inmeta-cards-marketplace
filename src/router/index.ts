@@ -35,7 +35,6 @@ const router = createRouter({
             component: RegisterView,
             meta: { guestOnly: true }
         },
-
         {
             path: '/dashboard',
             component: DashboardLayout,
@@ -43,12 +42,18 @@ const router = createRouter({
             children: [
                 {
                     path: '',
-                    redirect: '/dashboard/marketplace'
+                    redirect: { name: 'marketplace' }
                 },
                 {
                     path: 'marketplace',
                     name: 'marketplace',
                     component: MarketplaceView
+                },
+                {
+                    path: 'cards',
+                    name: 'my-cards',
+                    component: () =>
+                        import('@/modules/cards/views/MyCardsView.vue')
                 },
                 {
                     path: 'create-trade',
@@ -75,7 +80,7 @@ router.beforeEach((to) => {
     }
 
     if (guestOnly && auth.isAuthenticated) {
-        return '/dashboard'
+        return { path: '/dashboard' }
     }
 
     return true
