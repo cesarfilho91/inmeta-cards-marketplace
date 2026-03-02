@@ -24,7 +24,7 @@
 
 .auth-card input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.50rem;
     margin-bottom: 1rem;
     border-radius: var(--border-radius-sm);
     border: 1px solid var(--border-color);
@@ -85,4 +85,14 @@
     width: 160px;
     margin: 1.5rem auto 0;
     display: block;
+}
+
+.form-error {
+    margin: 0.5rem auto;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-sm);
+    background: rgba(231, 76, 60, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    color: var(--danger);
+    font-size: 0.9rem;
 }
