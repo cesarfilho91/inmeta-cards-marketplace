@@ -1,11 +1,19 @@
 .public-layout {
     min-height: 100vh;
-    background-color: #f8fafc;
+    background-color: var(--bg-main);
 }
 
 .public-header {
-    background: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--bg-navbar);
     border-bottom: 1px solid #e5e7eb;
+    z-index: 1000;
+}
+
+.dark .public-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .container {
@@ -21,52 +29,13 @@
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 1.4rem;
     font-weight: 600;
-    color: #111827;
-}
-
-.actions {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.public-content {
-    padding-top: 2rem;
-}
-
-/* Buttons */
-
-.btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
+    color: var(--text-primary);
     text-decoration: none;
-    transition: 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-outline {
-    border: 1px solid #d1d5db;
-    color: #111827;
-    background: transparent;
-}
-
-.btn-outline:hover {
-    background: #f3f4f6;
-}
-
-.btn-primary {
-    background: #111827;
-    color: white;
-    border: none;
-}
-
-.btn-primary:hover {
-    background: #1f2937;
 }
 
 .logo img {
@@ -75,13 +44,47 @@
     display: block;
 }
 
-.logo {
+.actions {
     display: flex;
-    align-items: center;
+    gap: 0.75rem;
 }
 
-.public-header {
-    position: fixed;
-    width: 100%;
-    z-index: 9999;
+.public-content {
+    padding-top: 90px;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    filter: brightness(0.95);
+}
+
+.btn-outline {
+    border: 1px solid #d1d5db;
+    color: var(--text-primary);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.dark .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.06);
 }
