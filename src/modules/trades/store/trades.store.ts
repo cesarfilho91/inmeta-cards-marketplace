@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import { TradeService } from '@/modules/trades/services/trade.service'
 import type { TradeCardPayload } from '../types'
+import type { Card } from '@/modules/cards/types'
 
 interface TradeState {
-    myCards: any[]
+    myCards: Card[]
     trades: any[]
     page: number
     rpp: number

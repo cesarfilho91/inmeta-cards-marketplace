@@ -3,7 +3,7 @@ import '@/assets/styles/dashboard.css'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
-import { LayoutDashboard, CreditCard, Moon, Sun, RefreshCcw } from 'lucide-vue-next'
+import { LayoutDashboard, CreditCard, Moon, Sun, RefreshCcw, ArrowLeftRight } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -95,6 +95,7 @@ function refreshPage() {
         </RouterLink>
 
         <RouterLink to="/dashboard/create-trade" class="nav-item" @click="closeSidebar">
+          <ArrowLeftRight class="icon" />
           <span>Criar Troca</span>
         </RouterLink>
       </nav>

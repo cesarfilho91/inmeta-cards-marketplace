@@ -1,7 +1,7 @@
 import { api } from '@/api/axios'
 
 export const CardService = {
-    async getAll(page = 1, rpp = 10) {
+    async getAll(page = 1, rpp = 500) {
         const response = await api.get('/cards', {
             params: { page, rpp }
         })

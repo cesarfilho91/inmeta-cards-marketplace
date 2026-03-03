@@ -2,10 +2,9 @@ import { api } from '@/api/axios'
 import type {
     LoginPayload,
     RegisterPayload,
-    AuthResponse
+    AuthResponse,
+    User
 } from '@/modules/auth/types'
-
-import type { User } from '@/types/user.types'
 
 export const AuthService = {
     async login(data: LoginPayload): Promise<AuthResponse> {

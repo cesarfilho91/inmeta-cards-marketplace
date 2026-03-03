@@ -41,7 +41,7 @@ watch(
 async function fetchAllCards() {
     loadingAll.value = true
     try {
-        const { data } = await api.get('/cards?rpp=100&page=1')
+        const { data } = await api.get('/cards?rpp=500&page=1')
         allCards.value = data.list
     } finally {
         loadingAll.value = false
@@ -104,7 +104,7 @@ function handleKeydown(event: KeyboardEvent) {
             {{ cardsStore.error }}
         </div>
 
-        <div v-else-if="cardsStore.cards.length === 0" class="empty-state">
+        <div v-else-if="cardsStore.myCards.length === 0" class="empty-state">
             <CreditCard class="empty-icon" />
             <h2>Nenhuma carta ainda</h2>
             <p>Adicione cartas à sua coleção para começar a negociar.</p>
@@ -115,7 +115,7 @@ function handleKeydown(event: KeyboardEvent) {
         </div>
 
         <div v-else class="cards-grid">
-            <div v-for="card in cardsStore.cards" :key="card.id" class="card-item" @click="openCardDetails(card)">
+            <div v-for="card in cardsStore.myCards" :key="card.id" class="card-item" @click="openCardDetails(card)">
                 <img :src="card.imageUrl" width="100" />
                 <h3 class="card-name">{{ card.name }}</h3>
             </div>
