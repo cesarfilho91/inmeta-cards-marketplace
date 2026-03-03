@@ -9,6 +9,7 @@ import '@/assets/styles/trades.css'
 const tradesStore = useTradesStore()
 const authStore = useAuthStore()
 
+const showImageModel = ref(false)
 const showCancelModal = ref(false)
 const tradeToCancel = ref<string | null>(null)
 
@@ -16,10 +17,7 @@ const selectedImage = ref<string | null>(null)
 
 function openImage(imageUrl: string) {
     selectedImage.value = imageUrl
-}
-
-function closeImage() {
-    selectedImage.value = null
+    showImageModel.value = true
 }
 
 onMounted(async () => {
@@ -71,7 +69,6 @@ async function confirmCancel() {
 
                 <div class="trade-body">
 
-                    <!-- OFFERING -->
                     <div class="trade-column">
                         <h4 class="offer-title">OFERECE</h4>
                         <div class="cards-row">
@@ -85,7 +82,6 @@ async function confirmCancel() {
 
                     <div class="trade-divider">⇄</div>
 
-                    <!-- RECEIVING -->
                     <div class="trade-column">
                         <h4 class="receive-title">QUER RECEBER</h4>
                         <div class="cards-row">
@@ -109,7 +105,6 @@ async function confirmCancel() {
         </div>
     </div>
 
-    <!-- Modal cancelar -->
     <BaseModal v-model="showCancelModal" title="Cancelar troca">
         <p>Tem certeza que deseja cancelar esta troca?</p>
 
@@ -124,8 +119,7 @@ async function confirmCancel() {
         </template>
     </BaseModal>
 
-    <!-- Modal imagem -->
-    <BaseModal v-model="selectedImage">
+    <BaseModal v-model="showImageModel">
         <div class="image-modal-content">
             <img v-if="selectedImage" :src="selectedImage" class="image-modal" />
         </div>
