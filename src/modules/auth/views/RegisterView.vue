@@ -64,13 +64,14 @@ const handleRegister = async () => {
       <h2>Criar Conta</h2>
 
       <form @submit.prevent="handleRegister">
-        <input v-model.trim="name" type="text" placeholder="Nome" required />
+        <input v-model.trim="name" type="text" placeholder="Nome" autocomplete="name" required />
 
-        <input v-model.trim="email" type="email" placeholder="Email" required />
+        <input v-model.trim="email" type="email" placeholder="Email" autocomplete="new-username" required />
 
-        <input v-model.trim="password" type="password" placeholder="Senha" required />
+        <input v-model.trim="password" type="password" placeholder="Senha" autocomplete="new-password" required />
 
-        <input v-model.trim="confirmPassword" type="password" placeholder="Confirmar Senha" required />
+        <input v-model.trim="confirmPassword" type="password" placeholder="Confirmar Senha" autocomplete="new-password"
+          required />
 
         <p v-if="formError" class="form-error">
           {{ formError }}
@@ -83,7 +84,11 @@ const handleRegister = async () => {
 
       <p class="redirect">
         Já tem conta?
-        <router-link to="/">Entrar</router-link>
+        <router-link to="/login">Entrar</router-link>
+      </p>
+
+      <p class="redirect">
+        <router-link to="/">Voltar para Marketplace</router-link>
       </p>
     </div>
   </div>

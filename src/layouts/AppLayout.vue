@@ -154,9 +154,11 @@ function refreshPage() {
       </header>
 
       <main class="content" id="dashboard-scroll-container">
-        <transition name="fade-slide" mode="out-in">
-          <router-view />
-        </transition>
+        <router-view v-slot="{ Component }">
+          <transition name="fade-slide" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </main>
 
     </div>

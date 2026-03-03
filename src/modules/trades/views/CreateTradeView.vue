@@ -168,6 +168,6 @@ async function submitTrade() {
                 </button>
             </div>
         </div>
+        <ScrollTopButton />
     </div>
-    <ScrollTopButton />
 </template>

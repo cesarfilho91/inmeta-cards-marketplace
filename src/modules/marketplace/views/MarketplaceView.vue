@@ -62,7 +62,6 @@ onMounted(() => {
         </span>
       </button>
     </div>
+    <ScrollTopButton />
   </div>
-
-  <ScrollTopButton />
 </template>

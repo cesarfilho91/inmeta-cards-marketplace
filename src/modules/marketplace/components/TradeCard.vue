@@ -104,4 +104,4 @@ const formattedDate = computed(() =>
     </Teleport>
 </template>
 
-<style scoped src="./trade-card.css"></style>
+<style scoped src="../../../assets/styles/trade-card.css"></style>

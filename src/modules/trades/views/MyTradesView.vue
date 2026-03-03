@@ -108,26 +108,26 @@ async function confirmCancel() {
                 {{ tradesStore.loading ? 'Carregando...' : 'Carregar mais' }}
             </button>
         </div>
+
+        <BaseModal v-model="showCancelModal" title="Cancelar troca">
+            <p>Tem certeza que deseja cancelar esta troca?</p>
+
+            <template #actions>
+                <button class="secondary-btn" @click="showCancelModal = false">
+                    Voltar
+                </button>
+
+                <button class="danger-btn" :disabled="tradesStore.loading" @click="confirmCancel">
+                    {{ tradesStore.loading ? 'Cancelando...' : 'Sim, cancelar' }}
+                </button>
+            </template>
+        </BaseModal>
+
+        <BaseModal v-model="showImageModel">
+            <div class="image-modal-content">
+                <img v-if="selectedImage" :src="selectedImage" class="image-modal" />
+            </div>
+        </BaseModal>
     </div>
-
-    <BaseModal v-model="showCancelModal" title="Cancelar troca">
-        <p>Tem certeza que deseja cancelar esta troca?</p>
-
-        <template #actions>
-            <button class="secondary-btn" @click="showCancelModal = false">
-                Voltar
-            </button>
-
-            <button class="danger-btn" :disabled="tradesStore.loading" @click="confirmCancel">
-                {{ tradesStore.loading ? 'Cancelando...' : 'Sim, cancelar' }}
-            </button>
-        </template>
-    </BaseModal>
-
-    <BaseModal v-model="showImageModel">
-        <div class="image-modal-content">
-            <img v-if="selectedImage" :src="selectedImage" class="image-modal" />
-        </div>
-    </BaseModal>
 
 </template>

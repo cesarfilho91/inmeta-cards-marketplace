@@ -93,7 +93,6 @@ function handleKeydown(event: KeyboardEvent) {
                 </div>
             </div>
         </div>
+        <ScrollTopButton />
     </div>
-
-    <ScrollTopButton />
 </template>

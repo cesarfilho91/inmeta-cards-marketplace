@@ -54,9 +54,9 @@ async function handleLogin() {
       <img src="@/assets/images/logo.png" class="auth-logo" />
       <h1>Login</h1>
 
-      <input v-model.trim="email" type="email" placeholder="Email" required />
+      <input v-model.trim="email" type="email" placeholder="Email" autocomplete="username" required />
 
-      <input v-model.trim="password" type="password" placeholder="Senha" required />
+      <input v-model.trim="password" type="password" placeholder="Senha" autocomplete="current-password" required />
 
       <p v-if="formError" class="form-error">
         {{ formError }}
@@ -69,6 +69,10 @@ async function handleLogin() {
       <p class="redirect">
         Não tem conta?
         <router-link to="/register">Criar conta</router-link>
+      </p>
+
+      <p class="redirect">
+        <router-link to="/">Voltar para Marketplace</router-link>
       </p>
 
 

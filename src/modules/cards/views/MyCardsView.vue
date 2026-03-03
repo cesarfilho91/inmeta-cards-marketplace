@@ -104,7 +104,6 @@ function handleKeydown(event: KeyboardEvent) {
         </div>
 
         <div v-else-if="cardsStore.myCards.length === 0" class="empty-state">
-            <CreditCard class="empty-icon" />
             <h2>Nenhuma carta ainda</h2>
             <p>Adicione cartas à sua coleção para começar a negociar.</p>
 
@@ -182,6 +181,6 @@ function handleKeydown(event: KeyboardEvent) {
                 </div>
             </div>
         </div>
+        <ScrollTopButton />
     </div>
-    <ScrollTopButton />
 </template>

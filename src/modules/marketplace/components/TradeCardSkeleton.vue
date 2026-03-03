@@ -9,4 +9,4 @@
     </div>
 </template>
 
-<style scoped src="./trade-card-skeleton.css"></style>
+<style scoped src="../../../assets/styles/trade-card-skeleton.css"></style>
