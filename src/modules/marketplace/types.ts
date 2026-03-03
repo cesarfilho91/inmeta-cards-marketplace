@@ -1,4 +1,4 @@
-import type { Card } from "@/shared/types"
+import type { Card } from "../cards/types"
 
 export interface TradeCard {
     id: string
