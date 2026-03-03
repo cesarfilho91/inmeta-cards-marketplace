@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted } from 'vue'
 import { useMarketplaceStore } from '../store/marketplace.store'
 import TradeCard from '../components/TradeCard.vue'
-import '@/assets/styles/marketplace.css'
+import ScrollTopButton from '@/components/ui/ScrollTopButton.vue'
 import TradeCardSkeleton from '../components/TradeCardSkeleton.vue'
+import '@/assets/styles/marketplace.css'
 
 const marketplace = useMarketplaceStore()
 
@@ -25,50 +26,9 @@ const handleLoadMore = async () => {
   })
 }
 
-const showScrollTop = ref(false)
-
-const handleScroll = () => {
-  const dashboardContainer = document.getElementById('dashboard-scroll-container')
-
-  if (dashboardContainer) {
-    showScrollTop.value = dashboardContainer.scrollTop > 300
-  } else {
-    showScrollTop.value = window.scrollY > 300
-  }
-}
-
-const scrollToTop = () => {
-  const dashboardContainer = document.getElementById('dashboard-scroll-container')
-
-  if (dashboardContainer) {
-    dashboardContainer.scrollTo({ top: 0, behavior: 'smooth' })
-  } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-}
-
 onMounted(() => {
   marketplace.fetchTrades()
-
-  const dashboardContainer = document.getElementById('dashboard-scroll-container')
-
-  if (dashboardContainer) {
-    dashboardContainer.addEventListener('scroll', handleScroll)
-  } else {
-    window.addEventListener('scroll', handleScroll)
-  }
 })
-
-onUnmounted(() => {
-  const dashboardContainer = document.getElementById('dashboard-scroll-container')
-
-  if (dashboardContainer) {
-    dashboardContainer.removeEventListener('scroll', handleScroll)
-  } else {
-    window.removeEventListener('scroll', handleScroll)
-  }
-})
-
 </script>
 
 <template>
@@ -103,12 +63,6 @@ onUnmounted(() => {
       </button>
     </div>
   </div>
-  <Transition name="scroll-fade">
-    <button v-if="showScrollTop" class="scroll-top" @click="scrollToTop" type="button">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-        <polyline points="18 15 12 9 6 15" />
-      </svg>
-    </button>
-  </Transition>
+
+  <ScrollTopButton />
 </template>

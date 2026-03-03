@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useCardsStore, type Card } from '../store/cards.store'
 import { useScrollLock } from '@/composables/useScrollLock'
 import { usePaginatedCards } from '../composables/usePaginatedCards'
+import ScrollTopButton from '@/components/ui/ScrollTopButton.vue'
 import '@/assets/styles/cards.css'
 
 const cardsStore = useCardsStore()
@@ -179,4 +180,5 @@ function handleKeydown(event: KeyboardEvent) {
             </div>
         </div>
     </div>
+    <ScrollTopButton />
 </template>

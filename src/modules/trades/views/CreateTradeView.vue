@@ -5,6 +5,7 @@ import { useTradesStore } from '../store/trades.store'
 import { useCardsStore } from '@/modules/cards/store/cards.store'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { usePaginatedCards } from '@/modules/cards/composables/usePaginatedCards'
+import ScrollTopButton from '@/components/ui/ScrollTopButton.vue'
 import type { TradeCardPayload } from '../types'
 import '@/assets/styles/cards.css'
 
@@ -167,4 +168,5 @@ async function submitTrade() {
             </div>
         </div>
     </div>
+    <ScrollTopButton />
 </template>
