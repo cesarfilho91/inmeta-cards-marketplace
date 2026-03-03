@@ -63,3 +63,157 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.trades-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.trade-card {
+    background: var(--bg-navbar);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.dark .trade-card {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.trade-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dark .trade-card:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.trade-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.trade-header span:first-child {
+    font-weight: 700;
+}
+
+.trade-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.trade-column {
+    width: 45%;
+    flex: 1;
+}
+
+.cards-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.card-preview {
+    text-align: center;
+    font-size: 12px;
+    max-width: 100px;
+}
+
+.card-preview img {
+    width: 95px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.card-preview img:hover {
+    transition: scale(1.05);
+}
+
+.trade-divider {
+    font-size: 28px;
+    opacity: 0.3;
+    transition: scale(1.1);
+}
+
+.trade-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.danger-btn {
+    background-color: #e53935;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+}
+
+.danger-btn:hover {
+    background-color: #c62828;
+}
+
+.offer-title {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.receive-title {
+    color: #1565c0;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.6;
+}
+
+.secondary-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #e5e7eb;
+    border: none;
+    cursor: pointer;
+}
+
+.card-preview.clickable {
+    cursor: pointer;
+}
+
+.card-preview.clickable:hover img {
+    transform: scale(1.05);
+}
+
+.card-modal-content {
+    display: flex;
+    justify-content: center;
+}
+
+.card-modal-image {
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    transition: 0.2s ease;
+}
+
+.card-modal-image:hover {
+    transform: scale(1.03);
+}

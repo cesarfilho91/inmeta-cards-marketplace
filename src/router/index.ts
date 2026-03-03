@@ -60,6 +60,11 @@ const router = createRouter({
                     name: 'create-trade',
                     component: () =>
                         import('@/modules/trades/views/CreateTradeView.vue')
+                },
+                {
+                    path: 'my-trade',
+                    name: 'my-trades',
+                    component: () => import('@/modules/trades/views/MyTradesView.vue')
                 }
             ]
         }

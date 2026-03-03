@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { TradeService } from '@/modules/trades/services/trade.service'
-import type { TradeCardPayload } from '../types'
+import type { TradeCardPayload, Trade } from '../types'
 import type { Card } from '@/modules/cards/types'
 
 interface TradeState {
     myCards: Card[]
-    trades: any[]
+    trades: Trade[]
     page: number
     rpp: number
     more: boolean
@@ -16,7 +16,7 @@ interface TradeState {
 export const useTradesStore = defineStore('trades', {
     state: (): TradeState => ({
         myCards: [],
-        trades: [],
+        trades: [] as Trade[],
         page: 1,
         rpp: 10,
         more: true,
@@ -75,6 +75,23 @@ export const useTradesStore = defineStore('trades', {
             if (!this.more) return
             this.page++
             await this.fetchTrades(true)
+        },
+
+        async deleteTrade(id: string) {
+            try {
+                this.loading = true
+                this.error = null
+
+                await TradeService.deleteTrade(id)
+
+                this.trades = this.trades.filter(trade => trade.id !== id)
+
+            } catch (err: any) {
+                this.error = 'Erro ao deletar troca'
+                throw err
+            } finally {
+                this.loading = false
+            }
         }
     }
 })

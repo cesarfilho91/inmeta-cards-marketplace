@@ -18,7 +18,7 @@ export const TradeService = {
         return response.data
     },
 
-    async delete(id: string) {
+    async deleteTrade(id: string): Promise<void> {
         await api.delete(`/trades/${id}`)
     }
 }
