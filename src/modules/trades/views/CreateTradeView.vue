@@ -6,6 +6,7 @@ import { useCardsStore } from '@/modules/cards/store/cards.store'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { usePaginatedCards } from '@/modules/cards/composables/usePaginatedCards'
 import ScrollTopButton from '@/components/ui/ScrollTopButton.vue'
+import TradeCardSkeleton from '@/modules/marketplace/components/TradeCardSkeleton.vue'
 import type { TradeCardPayload } from '../types'
 import '@/assets/styles/cards.css'
 
@@ -80,7 +81,7 @@ async function submitTrade() {
 
     try {
         await tradesStore.createTrade(payload)
-        router.push({ name: 'marketplace' })
+        router.push({ name: 'my-trades' })
     } catch (error) {
         console.error(error)
     }
@@ -92,7 +93,7 @@ async function submitTrade() {
         <h1>Criar Nova Troca</h1>
 
         <div v-if="tradesStore.loading" class="loading-state">
-            Carregando...
+            <TradeCardSkeleton v-for="i in 6" :key="i" />
         </div>
 
         <div v-else>

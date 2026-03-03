@@ -4,6 +4,7 @@ import { useCardsStore, type Card } from '../store/cards.store'
 import { useScrollLock } from '@/composables/useScrollLock'
 import { usePaginatedCards } from '../composables/usePaginatedCards'
 import ScrollTopButton from '@/components/ui/ScrollTopButton.vue'
+import TradeCardSkeleton from '@/modules/marketplace/components/TradeCardSkeleton.vue'
 import '@/assets/styles/cards.css'
 
 const cardsStore = useCardsStore()
@@ -94,7 +95,9 @@ function handleKeydown(event: KeyboardEvent) {
             + Adicionar cartas
         </button>
 
-        <div v-if="cardsStore.loading"></div>
+        <div v-if="cardsStore.loading">
+            <TradeCardSkeleton v-for="i in 6" :key="i" />
+        </div>
 
         <div v-else-if="cardsStore.error">
             {{ cardsStore.error }}

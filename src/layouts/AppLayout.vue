@@ -3,7 +3,7 @@ import '@/assets/styles/dashboard.css'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { useRouter } from 'vue-router'
-import { LayoutDashboard, CreditCard, Moon, Sun, RefreshCcw, ArrowLeftRight, CirclePlus } from 'lucide-vue-next'
+import { LayoutDashboard, CreditCard, Moon, Sun, RefreshCcw, ArrowLeftRight, CirclePlus, WalletCards } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -102,6 +102,11 @@ function refreshPage() {
         <RouterLink to="/dashboard/my-trade" class="nav-item" @click="closeSidebar">
           <ArrowLeftRight class="icon" />
           <span>Minhas Trocas</span>
+        </RouterLink>
+
+        <RouterLink to="/dashboard/cards-guide" class="nav-item" @click="closeSidebar">
+          <WalletCards class="icon" />
+          <span>Guia de Cartas</span>
         </RouterLink>
       </nav>
     </aside>
