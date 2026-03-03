@@ -18,7 +18,7 @@ export const useTradesStore = defineStore('trades', {
         myCards: [],
         trades: [] as Trade[],
         page: 1,
-        rpp: 10,
+        rpp: 25,
         more: true,
         loading: false,
         error: null
@@ -53,28 +53,41 @@ export const useTradesStore = defineStore('trades', {
             }
         },
 
-        async fetchTrades(append = false) {
+        async fetchTrades(reset = false) {
             try {
+                if (this.loading) return
+
                 this.loading = true
+                this.error = null
+
+                if (reset) {
+                    this.page = 1
+                    this.trades = []
+                    this.more = true
+                }
 
                 const data = await TradeService.getAll(this.page, this.rpp)
 
-                if (append) {
-                    this.trades = [...this.trades, ...data.list]
-                } else {
+                if (this.page === 1) {
                     this.trades = data.list
+                } else {
+                    this.trades = [...this.trades, ...data.list]
                 }
 
                 this.more = data.more
+
+            } catch (err: any) {
+                this.error = 'Erro ao carregar trocas'
             } finally {
                 this.loading = false
             }
         },
 
         async loadMore() {
-            if (!this.more) return
+            if (!this.more || this.loading) return
+
             this.page++
-            await this.fetchTrades(true)
+            await this.fetchTrades()
         },
 
         async deleteTrade(id: string) {

@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { api } from '@/api/axios'
 import { useCardsStore, type Card } from '../store/cards.store'
 import { useScrollLock } from '@/composables/useScrollLock'
+import { usePaginatedCards } from '../composables/usePaginatedCards'
 import '@/assets/styles/cards.css'
 
 const cardsStore = useCardsStore()
 
-const allCards = ref<Card[]>([])
 const selectedCards = ref<string[]>([])
 const showModal = ref(false)
-const loadingAll = ref(false)
 
 const selectedCard = ref<Card | null>(null)
 
 const { lock, unlock } = useScrollLock()
+
+const {
+    cards: allCards,
+    loading: loadingAll,
+    hasMore,
+    fetchCards
+} = usePaginatedCards(25)
 
 onMounted(() => {
     cardsStore.fetchMyCards()
@@ -38,21 +43,11 @@ watch(
     }
 )
 
-async function fetchAllCards() {
-    loadingAll.value = true
-    try {
-        const { data } = await api.get('/cards?rpp=500&page=1')
-        allCards.value = data.list
-    } finally {
-        loadingAll.value = false
-    }
-}
-
 function toggleModal() {
     showModal.value = !showModal.value
 
     if (showModal.value && allCards.value.length === 0) {
-        fetchAllCards()
+        fetchCards(true)
     }
 }
 
@@ -150,11 +145,7 @@ function handleKeydown(event: KeyboardEvent) {
                     </button>
                 </div>
 
-                <div v-if="loadingAll" class="loading-state">
-                    Carregando cartas...
-                </div>
-
-                <div v-else class="cards-grid selectable">
+                <div class="cards-grid selectable">
                     <div v-for="card in allCards" :key="card.id" class="card-select"
                         :class="{ selected: selectedCards.includes(card.id) }" @click="toggleSelection(card.id)">
                         <div class="badge" v-if="selectedCards.includes(card.id)">
@@ -173,6 +164,13 @@ function handleKeydown(event: KeyboardEvent) {
                     <button class="secondary-btn" @click="toggleModal">
                         Cancelar
                     </button>
+
+                    <div v-if="hasMore" class="load-more">
+                        <button type="button" class="secondary-btn" :disabled="loadingAll" @click="fetchCards()">
+                            <span v-if="loadingAll">Carregando...</span>
+                            <span v-else>Carregar mais</span>
+                        </button>
+                    </div>
 
                     <button class="primary-btn" :disabled="!selectedCards.length" @click="addSelectedCards">
                         Adicionar {{ selectedCards.length }}

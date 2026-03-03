@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useTradesStore } from '../store/trades.store'
 import { useCardsStore } from '@/modules/cards/store/cards.store'
 import { useAuthStore } from '@/modules/auth/store/auth.store'
+import { usePaginatedCards } from '@/modules/cards/composables/usePaginatedCards'
 import type { TradeCardPayload } from '../types'
 import '@/assets/styles/cards.css'
 
@@ -15,13 +16,20 @@ const router = useRouter()
 const selectedOffering = ref<string[]>([])
 const selectedReceiving = ref<string[]>([])
 
+const {
+    cards: allCards,
+    loading: loadingAll,
+    hasMore,
+    fetchCards
+} = usePaginatedCards(25)
 
 onMounted(async () => {
     await Promise.all([
         cardsStore.fetchMyCards(),
-        cardsStore.fetchAllCards(),
         tradesStore.fetchTrades()
     ])
+
+    await fetchCards(true)
 })
 
 const blockedCardIds = computed(() => {
@@ -44,7 +52,7 @@ const canSubmit = computed(() => {
 })
 
 const cardsINotHave = computed(() => {
-    return cardsStore.cards.filter(card =>
+    return allCards.value.filter(card =>
         !cardsStore.myCards.some(my => my.id === card.id)
     )
 })
@@ -98,12 +106,12 @@ async function submitTrade() {
                     selected: selectedOffering.includes(card.id),
                     disabled: isBlocked(card.id)
                 }" @click="() => {
-            if (isBlocked(card.id)) return
+                    if (isBlocked(card.id)) return
 
-            selectedOffering.includes(card.id)
-                ? selectedOffering = selectedOffering.filter(id => id !== card.id)
-                : selectedOffering.push(card.id)
-        }">
+                    selectedOffering.includes(card.id)
+                        ? selectedOffering = selectedOffering.filter(id => id !== card.id)
+                        : selectedOffering.push(card.id)
+                }">
                     <div class="badge" v-if="selectedOffering.includes(card.id)">
                         ✓
                     </div>
@@ -112,14 +120,15 @@ async function submitTrade() {
                     <h3 class="card-name">{{ card.name }}</h3>
                 </div>
             </div>
-
-            <h2 style="margin-top: 40px;">Quero Receber</h2>
+            <br />
+            <hr />
+            <h2 style="margin-top: 25px;">Quero Receber</h2>
 
             <div v-if="cardsStore.loading" class="empty-state">
                 <p>Carregando cartas disponíveis...</p>
             </div>
 
-            <div v-else-if="cardsStore.cards.length === 0" class="empty-state">
+            <div v-else-if="allCards.length === 0" class="empty-state">
                 <p>Nenhuma carta cadastrada no sistema.</p>
             </div>
 
@@ -146,7 +155,11 @@ async function submitTrade() {
                     <h3 class="card-name">{{ card.name }}</h3>
                 </div>
             </div>
-
+            <div v-if="hasMore" class="load-more">
+                <button type="button" class="secondary-btn" :disabled="loadingAll" @click="fetchCards()">
+                    {{ loadingAll ? 'Carregando...' : 'Carregar mais' }}
+                </button>
+            </div>
             <div style="margin-top: 40px;">
                 <button class="primary-btn" :disabled="!canSubmit || tradesStore.loading" @click="submitTrade">
                     Criar Troca

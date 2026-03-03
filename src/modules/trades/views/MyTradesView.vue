@@ -21,7 +21,7 @@ function openImage(imageUrl: string) {
 }
 
 onMounted(async () => {
-    await tradesStore.fetchTrades()
+    await tradesStore.fetchTrades(true)
 })
 
 const myTrades = computed(() => {
@@ -102,6 +102,11 @@ async function confirmCancel() {
                 </div>
 
             </div>
+        </div>
+        <div v-if="tradesStore.more" class="load-more">
+            <button type="button" class="secondary-btn" :disabled="tradesStore.loading" @click="tradesStore.loadMore()">
+                {{ tradesStore.loading ? 'Carregando...' : 'Carregar mais' }}
+            </button>
         </div>
     </div>
 
