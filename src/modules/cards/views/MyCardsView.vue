@@ -121,7 +121,9 @@ function handleKeydown(event: KeyboardEvent) {
 
         <div v-if="selectedCard" class="modal" @click.self="closeDetails">
             <div class="modal-content large animate-in details-modal">
-
+                <button class="modal-close" @click="closeDetails">
+                    ✕
+                </button>
                 <div class="details-grid">
                     <div class="details-image">
                         <img :src="selectedCard.imageUrl" />
@@ -134,7 +136,11 @@ function handleKeydown(event: KeyboardEvent) {
                             {{ selectedCard.description }}
                         </p>
                     </div>
-
+                    <div class="details-footer">
+                        <button class="secondary-btn" @click="closeDetails">
+                            Fechar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
