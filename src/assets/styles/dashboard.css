@@ -16,3 +16,13 @@ h1 {
     font-weight: 600;
     margin-bottom: 24px;
 }
+
+@media (max-width: 600px) {
+    .trade-card {
+        padding: 25px 10px;
+    }
+
+    .page-container {
+        padding: 35px 10px;
+    }
+}
