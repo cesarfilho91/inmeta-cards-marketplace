@@ -27,6 +27,8 @@
     justify-content: center;
     z-index: 9999;
     animation: fadeIn 0.2s ease-out;
+    overflow-y: auto;
+    padding: 16px;
 }
 
 .modal-content {
@@ -35,8 +37,9 @@
     padding: 24px;
     overflow-y: auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-height: 80vh;
-    width: 400px;
+    max-height: 90vh;
+    max-width: 900px;
+    width: 100%;
     position: relative;
 }
 
@@ -231,7 +234,7 @@
 .details-modal {
     max-width: 900px;
     width: 95%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .details-grid {
@@ -248,6 +251,7 @@
 
 .details-info {
     overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 @media (max-width: 768px) {
@@ -351,13 +355,9 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
+    z-index: 20;
 }
 
 body {
     overflow-x: hidden;
-}
-
-.modal {
-    overflow-y: auto;
-    padding: 16px;
 }
